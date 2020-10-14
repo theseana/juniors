@@ -1,3 +1,5 @@
+import pandas as pd 
+
 import tkinter as tk
 from tkinter import PhotoImage
 import tkinter.ttk as ttk
@@ -6,25 +8,53 @@ from config import *
 
 
 def cnt(sign, j):
+    j = int(j)
     if sign == '+':
-        print('+', j)
+        i[j]['count'] += 1
     else:
-        print('-', j)
-        
+        if i[j]['count']:
+            i[j]['count'] -= 1
+        else:
+            pass
+    count[j].set(i[j]['count'])
+
+
+def cntd(sign, j):
+    j = int(j)
+    if sign == '+':
+        d[j]['count'] += 1
+    else:
+        if d[j]['count']:
+            d[j]['count'] -= 1
+        else:
+            pass
+    countd[j].set(d[j]['count'])
+
+
+def rec():
+    df_d = pd.DataFrame(d).T
+    df_d = df_d[df_d["count"] != 0].set_index('name')
+    df_f = pd.DataFrame(i).T[["name", "price", "count"]]
+    df_f = df_f[df_f["count"] != 0].set_index('name')
+    frames = [df_d, df_f]
+    df = pd.concat(frames)
+    df['fee'] = df['price'] * df['count']
+
+    
 # $$$$$$$$$$$$$$$$$$$ Food Information $$$$$$$$$$$$$$$$$$$ #
 i = {
     0: {'name': 'BaqaliQatoq',
           'rating': 5,
           'review': 47, 
           'price': 1.5,
-          'count': 2,
+          'count': 0,
           'des':'This is Iranian Food, which most used in north of IRAN Elit reprehen derit exce pteur dolor labore ipsum veniam exercitation deserunt.',
           'img': 'images/baqali.gif'},
     1: {'name': 'SabziQormeh',
           'rating': 4,
           'review': 72,
           'price': 1,
-          'count': 1,
+          'count': 0,
           'des':'This is Iranian Food, which most used in north of IRAN Elit reprehen derit exce pteur dolor labore ipsum veniam exercitation deserunt.',
           'img': 'images/baqali1.gif'}
 }
@@ -32,13 +62,13 @@ i = {
 d = {
     0: {'name': 'Cola',
           'price': 1.5,
-          'count': 1},
+          'count': 0},
     1: {'name': 'Pepsi',
           'price': 1,
           'count': 0},
     2: {'name': 'Fanta',
           'price': 1.5,
-          'count': 2},
+          'count': 0},
     3: {'name': 'Water',
           'price': 1,
           'count': 0},
@@ -50,8 +80,8 @@ d = {
           'count': 0}
 }
 
-
-
+countd = {}
+count = {}
 image = {}
 img = {}
 # -------------------------------------------------------- #
@@ -93,9 +123,11 @@ for j in range(len(i)):
     image[j] = PhotoImage(file='cart.gif').subsample(7)
     tk.Label(f1_5, image=image[j], bg='#ffc107', fg='#ffffff').grid(row=0, column=0)
     
-    tk.Label(f1_5, text=i[j]['count'], font=('times', 15), bg='#ffc107').grid(row=0, column=1, sticky=tk.S)
-    tk.Button(f1_5, text='+', command=lambda j: cnt('+', j) ).grid(row=0, column=2)
-    tk.Button(f1_5, text='-', command=lambda j: cnt('-', j) ).grid(row=0, column=3)
+    count[j] = tk.StringVar()
+    count[j].set(i[j]['count'])
+    tk.Label(f1_5, textvariable=count[j], font=('times', 15), bg='#ffc107').grid(row=0, column=1, sticky=tk.S)
+    tk.Button(f1_5, text='+', command=lambda x=str(j): cnt('+', x) ).grid(row=0, column=2)
+    tk.Button(f1_5, text='-', command=lambda y=str(j): cnt('-', y) ).grid(row=0, column=3)
  
     des = i[j]['des']
     tk.Message(f1,
@@ -136,15 +168,19 @@ for l in range(len(d)):
     image[l] = PhotoImage(file='cartd.gif').subsample(7)
     tk.Label(f1_5, image=image[l], bg='#ffc107', fg='#ffffff').grid(row=0, column=0)
     
-    tk.Label(f1_5, text=d[l]['count'], font=('times', 15), bg='#ffc107').grid(row=0, column=1, sticky=tk.S)
-    tk.Button(f1_5, text='+', command=lambda l: cnt('+', l) ).grid(row=0, column=2)
-    tk.Button(f1_5, text='-', command=lambda l: cnt('-', l) ).grid(row=0, column=3)
+    countd[l] = tk.StringVar()
+    countd[l].set(d[l]['count'])
+    
+    tk.Label(f1_5, textvariable=countd[l], font=('times', 15), bg='#ffc107').grid(row=0, column=1, sticky=tk.S)
+    tk.Button(f1_5, text='+', command=lambda x=str(l): cntd('+', x) ).grid(row=0, column=2)
+    tk.Button(f1_5, text='-', command=lambda x=str(l): cntd('-', x) ).grid(row=0, column=3)
  
     price = str(d[l]['price']) + '$' 
     tk.Label(f1,
              bg='#0377fc',
             text=price,
             font='fixedsys').grid(row=0, column=1)
-
+# ################## Recitp Tab ################## #
+tk.Button(reciept, text='Confirm', command=rec).grid(row=0, column=0)
 
 root.mainloop()
