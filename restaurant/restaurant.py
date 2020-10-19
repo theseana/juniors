@@ -39,6 +39,12 @@ def rec():
     frames = [df_d, df_f]
     df = pd.concat(frames)
     df['fee'] = df['price'] * df['count']
+    
+    for index, row in df.iterrows():
+        # print("index>>>>",index,"\nrow", row[0], row[1], row[2]) 
+        tree.insert("", 0, text="", values=(index, row[0], row[1], row[2]))
+    
+    tree.insert("", 100, text="", values=("", "", "total:", df['fee'].sum() ))
 
     
 # $$$$$$$$$$$$$$$$$$$ Food Information $$$$$$$$$$$$$$$$$$$ #
@@ -182,5 +188,19 @@ for l in range(len(d)):
             font='fixedsys').grid(row=0, column=1)
 # ################## Recitp Tab ################## #
 tk.Button(reciept, text='Confirm', command=rec).grid(row=0, column=0)
+tree = ttk.Treeview(reciept)
+tree.grid(row=1, column=0, columnspan=3)
+tree["columns"]=("one","two","three", "four")
+tree.column("#0", width=1, stretch=tk.NO)
+tree.column("one", width=150, minwidth=150, stretch=tk.NO)
+tree.column("two", width=70)
+tree.column("three", width=80, minwidth=50, stretch=tk.NO)
+tree.column("four", width=80, minwidth=50, stretch=tk.NO)
+
+tree.heading("#0",text="ID",anchor=tk.W)
+tree.heading("one", text="Name",anchor=tk.W)
+tree.heading("two", text="Fee",anchor=tk.W)
+tree.heading("three", text="Count",anchor=tk.W)
+tree.heading("four", text="Price",anchor=tk.W)
 
 root.mainloop()
