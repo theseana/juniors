@@ -1,6 +1,17 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import hashlib
+import json
+
+
+def read_json(address):
+    with open(address) as file:
+        return json.load(file)
+        
+
+def write_json(address, data):       
+    with open(address, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
 
 
 def to_sha1(password):
@@ -12,12 +23,22 @@ def register():
     input_pass = to_sha1(form_pass.get())
     form_user.set("")
     form_pass.set("")
-    with open('users.txt', 'a') as file:
-        file.write(f"user:{input_user} pass:{input_pass}\n")
+    file = read_json('names.json')
+    data = {"username": input_user, "password": input_pass}     
+    file.append(data)
+    write_json('names.json', file)
 
 
 def login():
-    passs        
+    username = login_user.get() 
+    password = to_sha1(login_pass.get())
+    file = read_json('names.json')
+    for person in file:
+        if person['username'] == username:
+            if person['password'] == password:
+                print("eyval dadash")
+
+       
 root = tk.Tk()
 root.title("Bank")
 

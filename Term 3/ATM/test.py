@@ -1,6 +1,11 @@
 import json
 
-with open('names.json', 'r') as file:
-    file_json =json.dumps(file, indent=2)
+with open('names.json') as file:
+    file_json =json.load(file)
+    data = {"username": "mahdi", "password": "mannamaman"}     
+    file_json.append(data)
 
-print(file_json)
+ 
+
+with open('names.json', 'w', encoding='utf-8') as file:
+    json.dump(file_json, file, ensure_ascii=False, indent=4)
