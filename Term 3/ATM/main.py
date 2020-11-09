@@ -1,8 +1,14 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter import messagebox
 import hashlib
 import json
+import datetime
 
+
+def get_datetime():
+    frm = "%A, %H:%M:%S, %B-%d-%Y"
+    return datetime.datetime.now().strftime(frm)
 
 def read_json(address):
     with open(address) as file:
@@ -20,13 +26,24 @@ def to_sha1(password):
 
 def register():
     input_user = form_user.get()
-    input_pass = to_sha1(form_pass.get())
-    form_user.set("")
-    form_pass.set("")
     file = read_json('names.json')
-    data = {"username": input_user, "password": input_pass}     
-    file.append(data)
-    write_json('names.json', file)
+    all_users = []
+    for person in file:
+        all_users.append(person['username'])
+    if input_user not in all_users:
+        input_pass = to_sha1(form_pass.get())
+        form_user.set("")
+        form_pass.set("")
+        file = read_json('names.json')
+        data = {
+            "username": input_user,
+            "password": input_pass,
+            "created_at": get_datetime(),
+        }     
+        file.append(data)
+        write_json('names.json', file)
+    else:
+        messagebox.showerror("Username Error", "This Username is not available!")
 
 
 def login():
