@@ -1,6 +1,7 @@
+from os import popen
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import messagebox
+from tkinter import Toplevel, messagebox
 import hashlib
 import json
 import datetime
@@ -24,6 +25,9 @@ def to_sha1(password):
     return hashlib.sha1(password.encode('utf-8')).hexdigest()
 
 
+def get_card_number():
+    last = read_json('names.json')[-1]
+
 def register():
     input_user = form_user.get()
     file = read_json('names.json')
@@ -39,6 +43,7 @@ def register():
             "username": input_user,
             "password": input_pass,
             "created_at": get_datetime(),
+            "card_number": get_card_number(),
         }     
         file.append(data)
         write_json('names.json', file)
@@ -46,21 +51,35 @@ def register():
         messagebox.showerror("Username Error", "This Username is not available!")
 
 
+def find_person(file, username):
+    for person in file:
+            if person['username'] == username:
+                return person
+    messagebox.showerror("Username Error", "Entered Invalid Username")
+    return None
+
 def login():
     username = login_user.get() 
     password = to_sha1(login_pass.get())
     file = read_json('names.json')
-    for person in file:
-        if person['username'] == username:
-            if person['password'] == password:
-                print("eyval dadash")
+    person = find_person(file, username)
+    if person is None:
+        pass
+    else:
+        if person["password"] == password:
+            top.deiconify()
+            root.withdraw()
+
+        else:
+            messagebox.showerror("Password Error", "Entered Invalid Password")
 
        
 root = tk.Tk()
 root.title("Bank")
 
-# top = tk.Toplevel()
-# top.title("Form")
+top = tk.Toplevel()
+top.title("Main Menu")
+top.withdraw()
 
 note = ttk.Notebook()
 
