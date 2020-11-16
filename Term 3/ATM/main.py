@@ -1,10 +1,10 @@
-from os import popen
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import Toplevel, messagebox
 import hashlib
 import json
 import datetime
+import random
 
 
 def get_datetime():
@@ -26,7 +26,11 @@ def to_sha1(password):
 
 
 def get_card_number():
-    last = read_json('names.json')[-1]
+    last = read_json('names.json')
+    if not last:
+        return random.randint(6000000000000000, 7000000000000000)
+    else:
+        return last[-1]['card_number'] + random.randint(1000, 9999)
 
 def register():
     input_user = form_user.get()
@@ -34,19 +38,26 @@ def register():
     all_users = []
     for person in file:
         all_users.append(person['username'])
-    if input_user not in all_users:
-        input_pass = to_sha1(form_pass.get())
-        form_user.set("")
-        form_pass.set("")
-        file = read_json('names.json')
-        data = {
-            "username": input_user,
-            "password": input_pass,
-            "created_at": get_datetime(),
-            "card_number": get_card_number(),
-        }     
-        file.append(data)
-        write_json('names.json', file)
+    if not input_user:
+        messagebox.showerror("Username Error", "Please Enter a Username")
+    elif input_user not in all_users:
+        if not form_pass.get():
+            messagebox.showerror("Password Error", "Please Enter a Password")
+        else:
+            input_pass = to_sha1(form_pass.get())
+
+            form_user.set("")
+            form_pass.set("")
+            file = read_json('names.json')
+            data = {
+                "username": input_user,
+                "password": input_pass,
+                "created_at": get_datetime(),
+                "card_number": get_card_number(),
+                "balance": 10000,
+            }     
+            file.append(data)
+            write_json('names.json', file)
     else:
         messagebox.showerror("Username Error", "This Username is not available!")
 
@@ -107,5 +118,12 @@ login_pass = tk.StringVar()
 tk.Entry(login_form, textvariable=login_user).grid(row=0, column=1)
 tk.Entry(login_form, textvariable=login_pass, show='*').grid(row=1, column=1)
 tk.Button(login_form, text="Login", command=login).grid(row=2, column=0, columnspan=2, sticky=tk.W+tk.E)
+###############################################################
+# top level ###################################################
+tk.Button(top, text="Transfer", command=login).grid(row=0, column=0, sticky=tk.W+tk.E)
+tk.Button(top, text="Deposite", command=login).grid(row=0, column=1, sticky=tk.W+tk.E)
+tk.Button(top, text="Balance", command=login).grid(row=1, column=0, sticky=tk.W+tk.E)
+tk.Button(top, text="Change Password", command=login).grid(row=1, column=1, sticky=tk.W+tk.E)
+tk.Button(top, text="EXIT", command=root.destroy).grid(row=3, column=0, columnspan=2, sticky=tk.W+tk.E)
 ###############################################################
 root.mainloop()
