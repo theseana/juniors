@@ -4,13 +4,20 @@
         "password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef",
         "created_at": "Monday, 17:30:12, November-16-2020",
         "card_number": 6847014133447108,
-        "balance": 10000
+        "balance": 115465454
     },
     {
         "username": "sina",
         "password": "4914a75a7572920a34bceece8e8e9496bda92330",
         "created_at": "Wednesday, 16:00:15, November-18-2020",
         "card_number": 6847014133452199,
-        "balance": 9000
+        "balance": 5454
+    },
+    {
+        "username": "elsa",
+        "password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef",
+        "created_at": "Wednesday, 18:43:42, November-18-2020",
+        "card_number": 6847014133453606,
+        "balance": 10000
     }
 ]
