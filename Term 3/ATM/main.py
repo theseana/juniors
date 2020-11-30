@@ -1,12 +1,61 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import messagebox
+from tkinter import Toplevel, messagebox
 import hashlib
 import json
 import datetime
 import random
 
 
+def change():
+    def change_pass():
+        new_pass = new.get()
+        new_pass1 = new1.get()
+        if new_pass == new_pass1:
+            all = read_json('names.json')
+            if all[index]['password'] == to_sha1(old.get()):
+                all[index]['password'] = to_sha1(new.get())
+                write_json('names.json', all)
+
+            else:
+                messagebox.showerror("Not Valid", "Enter Correct Old-Password")
+        else:
+            messagebox.showerror("Not the same", "Retype same Password")
+
+    def chg_close():
+        chg.destroy()
+        top.deiconify()
+    top.withdraw()
+    chg = Toplevel()
+    tk.Label(chg, text="Old Password:").grid(row=0, column=0)
+    old = tk.StringVar()
+    tk.Entry(chg, show='*', textvariable=old).grid(row=0, column=1)
+    tk.Label(chg, text="New Password:").grid(row=1, column=0)
+    new = tk.StringVar()
+    tk.Entry(chg, show='*', textvariable=new).grid(row=1, column=1)
+    tk.Label(chg, text="New Password:").grid(row=2, column=0)
+    new1 = tk.StringVar()
+    tk.Entry(chg, show='*', textvariable=new1).grid(row=2, column=1)
+    tk.Button(chg, text="Change", command=change_pass).grid(row=3, column=0, columnspan=2, sticky=tk.W+tk.E)
+    tk.Button(chg, text="Close", command=chg_close).grid(row=4, column=0, columnspan=2, sticky=tk.W+tk.E)
+
+def balance():
+    def bln_close():
+        bln.destroy()
+        top.deiconify()
+
+    all = read_json('names.json')
+    top.withdraw()
+    bln = Toplevel()
+    string= f"""
+Name    : {all[index]['username']}
+Balance : {all[index]['balance']}
+"""
+    tk.Message(bln, text=string).grid(row=0, column=0)
+    tk.Button(bln,
+              text='Close',
+              command=bln_close
+    ).grid(row=2, column=0, columnspan=2)
 
 
 def deposite():
@@ -52,27 +101,54 @@ def find_destination(destination_card):
 
 
 def transfer():
-    def transer_money():
+    def transfer_confrimation(index, destination_index, confirmation):
+        all = read_json('names.json')
+        all[index]['balance'] -= destination_amount.get()
+        all[destination_index]['balance'] += destination_amount.get()
+        write_json('names.json', all)
+        
+        transfer_transaction['username'] = all[index]['username']
+        transfer_transaction['balance'] = all[index]['balance']
+        transfer_transaction['from'] = all[index]['card_number']
+        transfer_transaction['to'] = all[destination_index]['card_number']
+        transfer_transaction['amount'] = destination_amount.get()
+        transfer_transaction['created_at'] = get_datetime()
+        
+        all_tra = read_json('transactions.json')
+        all_tra.append(transfer_transaction)
+        write_json('transactions.json', all_tra)
+        confirmation.destroy()
+        trf.destroy()
+        top.deiconify()
+
+    def transfer_money():
         all = read_json('names.json')
         if all[index]['balance'] > destination_amount.get():
             destination_index = find_destination(destination_card.get())
             if destination_index is None:
                 messagebox.showerror("No Destinatio", "Find No Destination")
             else:
-                all[index]['balance'] -= destination_amount.get()
-                all[destination_index]['balance'] += destination_amount.get()
-                write_json('names.json', all)
+                confirmation = Toplevel()
+                string = f"""
+From   : {all[index]['card_number']}
+Name   : {all[index]['username']}
+
+To     : {all[destination_index]['card_number']}
+Name   : {all[destination_index]['username']}
+Amount : {destination_amount.get()}
+Do you confirm?
+                """
+                tk.Message(confirmation, text=string).grid(row=0, column=0)
+                tk.Button(confirmation,
+                    text='Confirm',
+                    command=lambda: transfer_confrimation(index, destination_index, confirmation)
+                ).grid(row=1, column=0, columnspan=2)
+                tk.Button(confirmation,
+                    text='Close',
+                    command=confirmation.destroy
+                ).grid(row=2, column=0, columnspan=2)
+
                 
-                transfer_transaction['username'] = all[index]['username']
-                transfer_transaction['balance'] = all[index]['balance']
-                transfer_transaction['from'] = all[index]['card_number']
-                transfer_transaction['to'] = all[destination_index]['card_number']
-                transfer_transaction['amount'] = destination_amount.get()
-                transfer_transaction['created_at'] = get_datetime()
-                
-                all_tra = read_json('transactions.json')
-                all_tra.append(transfer_transaction)
-                write_json('transactions.json', all_tra)
         else:
             messagebox.showerror("Less Money", "Not Enough Money")
 
@@ -89,7 +165,7 @@ def transfer():
     tk.Label(trf, text='Amount').grid(row=1, column=0)
     destination_amount = tk.IntVar()
     tk.Entry(trf, textvariable=destination_amount).grid(row=1, column=1)
-    tk.Button(trf, text='Transfer', command=transer_money).grid(row=2, column=0, columnspan=2)
+    tk.Button(trf, text='Transfer', command=transfer_money).grid(row=2, column=0, columnspan=2)
     tk.Button(trf, text='Close', command=transfer_destroy).grid(row=3, column=0, columnspan=2)
 
 
@@ -220,8 +296,8 @@ tk.Button(login_form, text="Login", command=login).grid(row=2, column=0, columns
 # top level ###################################################
 tk.Button(top, text="Transfer", command=transfer).grid(row=0, column=0, sticky=tk.W+tk.E)
 tk.Button(top, text="Deposite", command=deposite).grid(row=0, column=1, sticky=tk.W+tk.E)
-tk.Button(top, text="Balance", command=login).grid(row=1, column=0, sticky=tk.W+tk.E)
-tk.Button(top, text="Change Password", command=login).grid(row=1, column=1, sticky=tk.W+tk.E)
+tk.Button(top, text="Balance", command=balance).grid(row=1, column=0, sticky=tk.W+tk.E)
+tk.Button(top, text="Change Password", command=change).grid(row=1, column=1, sticky=tk.W+tk.E)
 tk.Button(top, text="EXIT", command=root.destroy).grid(row=3, column=0, columnspan=2, sticky=tk.W+tk.E)
 ###############################################################
 root.mainloop()
