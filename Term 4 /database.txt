@@ -2,8 +2,8 @@ CREATE DATABSE juniors;
 
 CREATE TABLE student(
     student_id INT AUTO_INCREMENT,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     birth_date DATE NOT NULL,
     sex ENUM('f', 'm', 'others'),
     email VARCHAR(100),
@@ -14,3 +14,44 @@ CREATE TABLE student(
     updated_at DATETIME,
     PRIMARY KEY (student_id)
 );
+
+# C-R-U-D
+
+  Operating   COMMANDS
+# Create   => INSERT INTO
+# Read     => SELECT
+# Update   =>  UPDATE
+# Delete   => DELETE FROM
+
+
+*********INSERT**********
+INSERT INTO student
+(first_name, last_name, birth_date, sex, email, phone, id_card, address)
+VALUES
+('mobin', 'ziyaie', '2006-01-01', 'm', 'mobin@ziyaie.com', '09115555555', '2154879865', 'Guilan Bolvar');
+
+INSERT INTO student
+(first_name, last_name, birth_date, sex, email, phone, id_card, address)
+VALUES
+('mahdi', 'kaseb', '2006-01-01', 'm', 'mahdi@kaseb.com', '09115555555', '2154879825', 'Guilan Bolvar'),
+('nozhan', 'nemati', '2006-01-01', 'm', 'nozhan@nemati.com', '09115555555', '2154879365', 'Guilan Bolvar'),
+('alireza', 'tofighi', '2006-01-01', 'm', 'alireza@tofighi.com', '09115555555', '2155879865', 'Guilan Bolvar'),
+('amirmohammad', 'alizadeh', '2006-01-01', 'm', 'amirmohammad@alizadeh.com', '09115555555', '2154479865', 'Guilan Bolvar'),
+('parham', 'javadi', '2006-01-01', 'm', 'parham@javadi.com', '09115555555', '2154879815', 'Guilan Bolvar'),
+('sina', 'bakhshandeh', '2006-01-01', 'm', 'sina@bakhshandeh.com', '09115555555', '2156679865', 'Guilan Bolvar');
+
+
+*********SELECT**********
+SELECT * FROM student;
+SELECT * FROM student WHERE first_name='mobin';
+SELECT * FROM student WHERE first_name='mobin' AND last_name='ziyaie';
+SELECT first_name, last_name FROM student;
+
+
+*********UPDATE**********
+UPDATE student SET first_name='pasha' WHERE student_id=1;
+
+
+*********DELETE**********
+DELETE FROM student WHERE student_id=1;
+

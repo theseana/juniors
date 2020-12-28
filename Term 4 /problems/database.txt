@@ -1,0 +1,27 @@
+tofiqi
+
+database name      > gym
+table name         > athles
+
+id          int    > int
+first_name  string > varchar
+last_name   string > varchar
+phone       int    > int
+sex         string > enum
+
+Tofiqi:
+CREATE DATABASE gym;
+USE gym;
+CREATE TABLE athles(
+id INT AUTO_INCREMENT,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+phone VARCHAR(11) NOT NULL,
+sex ENUM('m', 'f', 'others'),
+PRIMARY KEY (id)
+);
+
+
+C R U D > function
+
+GUI > tkinter

@@ -41,5 +41,22 @@
         "to": 6847014133453606,
         "amount": 500,
         "created_at": "Wednesday, 16:41:20, November-25-2020"
+    },
+    {
+        "type": "deposite",
+        "username": "romina",
+        "balance": 9850,
+        "card_number": 6847014133456691,
+        "amount": 150,
+        "created_at": "Thursday, 12:42:51, December-03-2020"
+    },
+    {
+        "type": "transfer",
+        "username": "romina",
+        "balance": 9475,
+        "from": 6847014133456691,
+        "to": 6847014133452199,
+        "amount": 375,
+        "created_at": "Thursday, 12:43:29, December-03-2020"
     }
 ]
