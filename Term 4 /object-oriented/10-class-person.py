@@ -21,6 +21,9 @@ class Student(Person):
 
     def salary_calculate(self):
         return f'{self.name} {self.l_name} is a student'
+
+
+
 m = Professor('mahan', 'kabir', 'full-professor', 500)
 print(m.salary_calculate())
 mo = Student('mobin', 'ziyaie', 2, 'software engineering')
