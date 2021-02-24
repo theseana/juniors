@@ -58,5 +58,22 @@
         "to": 6847014133452199,
         "amount": 375,
         "created_at": "Thursday, 12:43:29, December-03-2020"
+    },
+    {
+        "type": "transfer",
+        "username": "apondaone",
+        "balance": 2223,
+        "from": 6847014133461459,
+        "to": 6847014133456691,
+        "amount": 7777,
+        "created_at": "Monday, 17:50:37, February-08-2021"
+    },
+    {
+        "type": "deposite",
+        "username": "apondaone",
+        "balance": 2000,
+        "card_number": 6847014133461459,
+        "amount": 223,
+        "created_at": "Monday, 17:50:49, February-08-2021"
     }
 ]

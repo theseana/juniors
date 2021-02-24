@@ -25,6 +25,13 @@
         "password": "fe05bcdcdc4928012781a5f1a2a77cbb5398e106",
         "created_at": "Thursday, 12:42:21, December-03-2020",
         "card_number": 6847014133456691,
-        "balance": 9475
+        "balance": 17252
+    },
+    {
+        "username": "apondaone",
+        "password": "7110eda4d09e062aa5e4a390b0a572ac0d2c0220",
+        "created_at": "Monday, 17:48:23, February-08-2021",
+        "card_number": 6847014133461459,
+        "balance": 2000
     }
 ]

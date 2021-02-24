@@ -11,12 +11,17 @@ session = Connection().create_session()
 # session.commit()
 
 # Read
-persons = session.query(Student).filter(Student.first_name == 'mobin') 
-for person in persons:
-    print(person)
+# persons = session.query(Student).filter(Student.first_name == 'mobin') 
+# for person in persons:
+#     print(person)
 
 
 # Update
-
+# person = session.query(Student).filter(Student.studentId == 1) 
+# person.update({'first_name': 'hazhir'})
+# session.commit()
 
 # Delete
+# person = session.query(Student).filter(Student.studentId == 1) 
+# person.delete()
+# session.commit()
