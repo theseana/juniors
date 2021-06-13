@@ -1,0 +1,36 @@
+.bi {
+    background-color: blueviolet;
+    color: yellow;
+}
+
+#header1{
+    background-color: red;
+}
+
+#red{
+    background-color: red;
+}
+
+#blue{
+    background-color: blue;
+}
+
+.green{
+    background-color: green;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+h1{
+    text-align: center;
+}
+
+p{
+    text-align: justify;
+}
+
+.farsi{
+    direction: rtl;
+}

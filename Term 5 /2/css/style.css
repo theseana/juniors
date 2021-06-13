@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "gole-hendi";
+    src: url("../font/Indie_Flower/IndieFlower-Regular.ttf");
+}
+
+
+
+h1{
+    text-align: center;
+}
+
+p{
+    text-align: justify;
+}
+
+.text{
+    font-family: 'gole-hendi', cursive;
+}
+
+.farsi{
+    direction: rtl;
+}

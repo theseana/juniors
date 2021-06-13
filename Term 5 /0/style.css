@@ -1,0 +1,32 @@
+body{
+    background-color: white;
+}
+
+h1{
+    background-color: red;
+}
+
+p{
+    background-color: yellow;
+    margin: 60px 100px;
+    border: violet solid 5px;
+    border-radius: 5px;
+    padding: 5px 20px;
+
+}
+a{
+    background-color: tomato;
+    border: green solid 5px;
+    text-decoration: none;
+    color: yellow;
+}
+table, td, th{
+    border: black solid 2px;
+    border-collapse: collapse;
+}
+th{
+    background-color: chocolate;
+}
+a{
+    background-color: lime;
+}

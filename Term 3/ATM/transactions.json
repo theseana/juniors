@@ -75,5 +75,22 @@
         "card_number": 6847014133461459,
         "amount": 223,
         "created_at": "Monday, 17:50:49, February-08-2021"
+    },
+    {
+        "type": "deposite",
+        "username": "maedeh",
+        "balance": 9985,
+        "card_number": 6847014133468821,
+        "amount": 15,
+        "created_at": "Sunday, 16:28:54, April-11-2021"
+    },
+    {
+        "type": "transfer",
+        "username": "maedeh",
+        "balance": 9210,
+        "from": 6847014133468821,
+        "to": 6847014133452199,
+        "amount": 775,
+        "created_at": "Sunday, 16:29:51, April-11-2021"
     }
 ]

@@ -11,7 +11,7 @@ from database.models import Member
 class GUI(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-
+        self.geometry
         frame_r = tk.LabelFrame(self, text="Register")
         frame_r.grid(row=0, column=0)
 
@@ -72,7 +72,13 @@ class GUI(tk.Tk):
 
         self.id_s = tk.IntVar()
         tk.Entry(frame_s, textvariable=self.id_s).grid(row=0, column=0)
-        tk.Button(frame_s, text="Search ID", command=self.id_s).grid(row=0, column=1)
+        tk.Button(frame_s, text="Search ID", command=self.search).grid(row=0, column=1)
+
+
+    def search(self):
+        session = Connection().create_session()
+        person = session.query(Member).filter(Member.member_id == self.id_s.get()) 
+        print(person[0].first_name)
 
     def up(self):   
         session = Connection().create_session()

@@ -1,0 +1,13 @@
+body{
+    background-color: rgb(241, 233, 162);
+}
+
+h1{
+    background-color:rgba(255, 7, 7, 0.157);
+}
+
+a:link{
+    color: black;
+    background-color: rgba(128, 128, 128, 0.459);
+    text-decoration: none;
+}
